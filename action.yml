@@ -1,6 +1,5 @@
 name: last-assigned
 description: Gets the person assigned to the most recently created issue that matches a query.
-author: @lee-dohm
 inputs:
   query:
     description: Query used to select the applicable issue
