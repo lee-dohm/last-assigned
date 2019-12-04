@@ -1,10 +1,16 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: last-assigned
+description: Gets the person assigned to the most recently created issue that matches a query.
+author: @lee-dohm
 inputs:
-  myInput:              # change this
-    description: 'input description here'
-    default: 'default value if applicable'
+  query:
+    description: Query used to select the applicable issue
+    required: true
+  token:
+    description: Token to be used to perform the query
+    required: true
+outputs:
+  last:
+    description: GitHub handle of the person that was assigned to the most recently created issue matching `query`
 runs:
   using: 'node12'
   main: 'lib/main.js'
