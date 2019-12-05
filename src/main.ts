@@ -2,8 +2,8 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 
 const query = `
-query($query: String!) {
-  search(first: 1, query: $query, type: ISSUE) {
+query($searchQuery: String!) {
+  search(first: 1, query: $searchQuery, type: ISSUE) {
     nodes {
       ... on Issue {
         assignees(first: 1) {
@@ -25,24 +25,28 @@ query($query: String!) {
 `
 
 function formatNameWithOwner(repo) {
-  return `${repo.owner}/${repo.name}`
+  return `${repo.owner}/${repo.repo}`
 }
 
 async function getLastAssigned(octokit, searchQuery) {
   const context = github.context
-  const { data: data } = await octokit.graphql(query, {
-    query: `repo:${formatNameWithOwner(context.repo)} sort:created ${searchQuery}`
-  })
+  const queryText = `repo:${formatNameWithOwner(context.repo)} sort:created ${searchQuery}`
 
-  if (data.search.nodes.length == 0) {
+  core.debug(`Query: ${queryText}`)
+
+  const results = await octokit.graphql(query, { searchQuery: queryText })
+
+  core.debug(`Results: ${JSON.stringify(results)}`)
+
+  if (results.search.nodes.length == 0) {
     return null
   }
 
-  if (data.search.nodes[0].assignees.nodes.length == 0) {
+  if (results.search.nodes[0].assignees.nodes.length == 0) {
     return null
   }
 
-  return data.search.nodes[0].assignees.nodes[0].login
+  return results.search.nodes[0].assignees.nodes[0].login
 }
 
 async function run() {
