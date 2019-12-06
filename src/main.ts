@@ -24,13 +24,12 @@ query($searchQuery: String!) {
 }
 `
 
-function formatNameWithOwner(repo) {
-  return `${repo.owner}/${repo.repo}`
+function formatNameWithOwner({ owner, repo }) {
+  return `${owner}/${repo}`
 }
 
 async function getLastAssigned(octokit, searchQuery) {
-  const context = github.context
-  const queryText = `repo:${formatNameWithOwner(context.repo)} sort:created ${searchQuery}`
+  const queryText = `repo:${formatNameWithOwner(github.context.repo)} sort:created ${searchQuery}`
 
   core.debug(`Query: ${queryText}`)
 
