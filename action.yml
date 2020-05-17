@@ -12,4 +12,4 @@ outputs:
     description: GitHub handle of the person that was assigned to the most recently created issue matching `query`
 runs:
   using: 'node12'
-  main: 'lib/main.js'
+  main: 'dist/index.js'
