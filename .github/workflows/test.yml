@@ -9,22 +9,22 @@ jobs:
   unitTest:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - run: npm ci
-    - run: npm run ci
+      - run: npm ci
+      - run: npm run ci
   integrationTest:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - run: npm ci
-    - run: npm run build
-    - uses: ./
-      id: assigned
-      with:
-        query: 'label:for-testing'
-        token: ${{ github.token }}
-    - run: exit 1
-      name: "Fail unless steps.assigned.outputs.last == 'lee-dohm'"
-      if: steps.assigned.outputs.last != 'lee-dohm'
+      - run: npm ci
+      - run: npm run build
+      - uses: ./
+        id: assigned
+        with:
+          query: 'label:for-testing'
+          token: ${{ github.token }}
+      - run: exit 1
+        name: "Fail unless steps.assigned.outputs.last == 'lee-dohm'"
+        if: steps.assigned.outputs.last != 'lee-dohm'

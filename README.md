@@ -10,7 +10,7 @@ For example:
 # .github/workflows/weekly-issue
 on:
   schedule:
-  - cron: 0 20 * * 2
+    - cron: 0 20 * * 2
 name: Create weekly issue
 jobs:
   stuff:
@@ -41,12 +41,12 @@ This workflow:
 
 ### Inputs
 
-* `query` -- Search query used to match issues or pull requests
-* `token` -- Token to use to execute the query
+- `query` -- Search query used to match issues or pull requests
+- `token` -- Token to use to execute the query
 
 ### Outputs
 
-* `last` -- GitHub handle of the person assigned to the most recently created issue or pull request matching `query`
+- `last` -- GitHub handle of the person assigned to the most recently created issue or pull request matching `query`
 
 ## License
 
