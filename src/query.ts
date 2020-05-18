@@ -47,7 +47,7 @@ query($searchQuery: String!) {
 
 /**
  * Formats the name-with-owner object into its text representation.
- * 
+ *
  * @param nwo Owner and repo names to format
  * @returns String containing the canonical text format
  */
@@ -57,7 +57,7 @@ function formatNameWithOwner({ owner, repo }: NameWithOwner) {
 
 /**
  * Gets the last person assigned to the most recent issue or PR that matches `searchQuery`.
- * 
+ *
  * @param octokit Actions GitHub object to use to execute queries
  * @param searchQuery Query text to match issues or pull requests
  * @returns Login name of the user that was assigned or `null` if no records matched

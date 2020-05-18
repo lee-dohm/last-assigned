@@ -28,7 +28,7 @@ describe('getLastAssigned', () => {
   beforeEach(() => {
     Object.assign(process.env, {
       GITHUB_REPOSITORY: 'test-owner/test-repo',
-      GITHUB_ACTION: 'last-assigned'
+      GITHUB_ACTION: 'last-assigned',
     })
 
     octokit = new GitHub(mockToken)
@@ -43,14 +43,14 @@ describe('getLastAssigned', () => {
               assignees: {
                 nodes: [
                   {
-                    login: 'test-user'
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      }
+                    login: 'test-user',
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
     })
 
     const login = await getLastAssigned(octokit, testQuery)
@@ -66,9 +66,9 @@ describe('getLastAssigned', () => {
     graphqlNock({
       data: {
         search: {
-          nodes: []
-        }
-      }
+          nodes: [],
+        },
+      },
     })
 
     const login = await getLastAssigned(octokit, testQuery)
@@ -87,12 +87,12 @@ describe('getLastAssigned', () => {
           nodes: [
             {
               assignees: {
-                nodes: []
-              }
-            }
-          ]
-        }
-      }
+                nodes: [],
+              },
+            },
+          ],
+        },
+      },
     })
 
     const login = await getLastAssigned(octokit, testQuery)
