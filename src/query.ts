@@ -1,6 +1,8 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 
+import { GitHub } from '@actions/github/lib/utils'
+
 interface Assignable {
   assignees: {
     nodes: Array<User>
@@ -21,6 +23,8 @@ export interface SearchQueryResponse {
 interface User {
   login: string
 }
+
+export type ActionsOctokit = InstanceType<typeof GitHub>
 
 const query = `
 query($searchQuery: String!) {
@@ -62,7 +66,7 @@ function formatNameWithOwner({ owner, repo }: NameWithOwner) {
  * @param searchQuery Query text to match issues or pull requests
  * @returns Login name of the user that was assigned or `null` if no records matched
  */
-export async function getLastAssigned(octokit: github.GitHub, searchQuery: string) {
+export async function getLastAssigned(octokit: ActionsOctokit, searchQuery: string) {
   const queryText = `repo:${formatNameWithOwner(github.context.repo)} sort:created ${searchQuery}`
 
   core.debug(`Query: ${queryText}`)
