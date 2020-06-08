@@ -1,7 +1,7 @@
+import * as github from '@actions/github'
 import nock from 'nock'
 
-import { getLastAssigned, SearchQueryResponse } from '../src/query'
-import { GitHub } from '@actions/github'
+import { ActionsOctokit, getLastAssigned, SearchQueryResponse } from '../src/query'
 
 let requestBody: nock.Body
 
@@ -23,7 +23,7 @@ describe('getLastAssigned', () => {
   const mockToken = '1234567890abcdef'
   const testQuery = 'label:weekly-issue'
 
-  let octokit: GitHub
+  let octokit: ActionsOctokit
 
   beforeEach(() => {
     Object.assign(process.env, {
@@ -31,7 +31,7 @@ describe('getLastAssigned', () => {
       GITHUB_ACTION: 'last-assigned',
     })
 
-    octokit = new GitHub(mockToken)
+    octokit = github.getOctokit(mockToken)
   })
 
   it('returns the login of the assignee', async () => {

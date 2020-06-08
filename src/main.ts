@@ -8,7 +8,7 @@ async function run() {
     const query = core.getInput('query', { required: true })
     const token = core.getInput('token', { required: true })
 
-    const octokit = new github.GitHub(token)
+    const octokit = github.getOctokit(token)
     const assigned = (await getLastAssigned(octokit, query)) ?? ''
     core.debug(`Last assigned: ${assigned}`)
 
