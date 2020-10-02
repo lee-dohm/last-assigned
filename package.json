@@ -6,10 +6,11 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "npx ncc build ./src/main.ts",
-    "ci": "npm run lint && npm test",
+    "ci": "npm run format-check && npm run lint && npm test",
     "format": "prettier --write **/*.ts **/*.md **/*.yaml **/*.yml",
-    "lint": "prettier --check **/*.ts **/*.md **/*.yaml **/*.yml",
-    "start": "npx ncc start ./src/main.ts",
+    "format-check": "prettier --check **/*.ts **/*.md **/*.yaml **/*.yml",
+    "lint": "npx eslint src/**/*.ts",
+    "start": "npx ncc run ./src/main.ts",
     "test": "jest"
   },
   "repository": {
@@ -30,7 +31,11 @@
   "devDependencies": {
     "@types/jest": "^26.0.14",
     "@types/node": "^14.11.2",
+    "@typescript-eslint/parser": "^4.3.0",
     "@vercel/ncc": "^0.24.1",
+    "eslint": "^7.10.0",
+    "eslint-plugin-github": "^4.1.1",
+    "eslint-plugin-jest": "^24.0.2",
     "jest": "^24.9.0",
     "jest-circus": "^26.4.2",
     "nock": "^13.0.4",
