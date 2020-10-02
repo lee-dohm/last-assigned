@@ -5,7 +5,7 @@ import { GitHub } from '@actions/github/lib/utils'
 
 interface Assignable {
   assignees: {
-    nodes: Array<User>
+    nodes: User[]
   }
 }
 
@@ -16,7 +16,7 @@ interface NameWithOwner {
 
 export interface SearchQueryResponse {
   search: {
-    nodes: Array<Assignable>
+    nodes: Assignable[]
   }
 }
 
@@ -55,7 +55,7 @@ query($searchQuery: String!) {
  * @param nwo Owner and repo names to format
  * @returns String containing the canonical text format
  */
-function formatNameWithOwner({ owner, repo }: NameWithOwner) {
+function formatNameWithOwner({ owner, repo }: NameWithOwner): string {
   return `${owner}/${repo}`
 }
 
@@ -66,20 +66,23 @@ function formatNameWithOwner({ owner, repo }: NameWithOwner) {
  * @param searchQuery Query text to match issues or pull requests
  * @returns Login name of the user that was assigned or `null` if no records matched
  */
-export async function getLastAssigned(octokit: ActionsOctokit, searchQuery: string) {
+export async function getLastAssigned(
+  octokit: ActionsOctokit,
+  searchQuery: string
+): Promise<string | null> {
   const queryText = `repo:${formatNameWithOwner(github.context.repo)} sort:created ${searchQuery}`
 
   core.debug(`Query: ${queryText}`)
 
-  const results = (await octokit.graphql(query, { searchQuery: queryText })) as SearchQueryResponse
+  const results: SearchQueryResponse = await octokit.graphql(query, { searchQuery: queryText })
 
   core.debug(`Results: ${JSON.stringify(results)}`)
 
-  if (results.search.nodes.length == 0) {
+  if (results.search.nodes.length === 0) {
     return null
   }
 
-  if (results.search.nodes[0].assignees.nodes.length == 0) {
+  if (results.search.nodes[0].assignees.nodes.length === 0) {
     return null
   }
 

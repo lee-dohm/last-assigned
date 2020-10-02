@@ -3,7 +3,7 @@ import * as github from '@actions/github'
 
 import { getLastAssigned } from './query'
 
-async function run() {
+async function run(): Promise<void> {
   try {
     const query = core.getInput('query', { required: true })
     const token = core.getInput('token', { required: true })
